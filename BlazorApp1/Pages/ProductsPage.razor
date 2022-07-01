@@ -1,0 +1,37 @@
+﻿@page "/products"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+    <MudTable ServerData="@ServerReload"
+          Hover="true" @ref="table" FixedHeader="true" FixedFooter="true" Height="55vh" Striped="true"  
+          LoadingProgressColor="Color.Info">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Products List</MudText>
+            <MudSpacer />
+            <MudTextField T="string" @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" DebounceInterval="500" OnDebounceIntervalElapsed="@(() => table.ReloadServerData())"
+                            AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="@(() => table.ReloadServerData())" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="Id" T="ProductVM">Id</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="Name" T="ProductVM">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="Price" T="ProductVM">Price</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="CreatedDate" T="ProductVM">Created On Date</MudTableSortLabel></MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+            <MudTd DataLabel="Created On Date">@context.CreatedDate.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture)</MudTd>
+            <MudTd DataLabel=""><MudIconButton Icon="@Icons.Filled.Edit" Href="@($"/products/edit/{context.Id}")"></MudIconButton></MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudContainer>

@@ -1,0 +1,71 @@
+﻿@page "/courses/edit/{id:int}"
+
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+@if(Course != null)
+{
+<MudCard>
+	<MudForm Model="@Course" @ref="@form" Validation="@(courseValidator.ValidateValue)" ValidationDelay="0">
+		<MudCardContent>
+			<MudTextField @bind-Value="Course.Name"                              
+							For="@(() => Course.Name)"
+							Immediate="true"
+							Label="Name" />
+        </MudCardContent>
+	</MudForm>
+	
+		<MudCardContent Class="pa-0">
+            <MudList>
+                <MudListSubheader>
+                    Included on Products
+                </MudListSubheader>
+                @foreach(var product in Course.Products)
+                {
+                    <MudListItem>
+                        <MudElement Class="d-flex flex-row">
+                            <MudText>@product.Name</MudText>
+                            <MudIconButton Icon="@Icons.Filled.RemoveCircle" Color="Color.Error" @onclick="@(() => RemoveProduct(product.Id))"></MudIconButton>
+                        </MudElement>
+                    </MudListItem>
+                }
+            </MudList>
+            <MudTable ServerData="@ServerReload"
+                  Hover="true" @ref="table" FixedHeader="true" FixedFooter="true" Height="55vh" Striped="true"
+                  LoadingProgressColor="Color.Info">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Products List</MudText>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" DebounceInterval="500" OnDebounceIntervalElapsed="@(() => table.ReloadServerData())"
+                                    AdornmentIcon="@Icons.Material.Filled.Search" OnAdornmentClick="@(() => table.ReloadServerData())" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortLabel="Id" T="ProductVM">Id</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="Name" T="ProductVM">Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="Price" T="ProductVM">Price</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="CreatedDate" T="ProductVM">Created On Date</MudTableSortLabel></MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Id">@context.Id</MudTd>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Price">@context.Price.ToString("C")</MudTd>
+                    <MudTd DataLabel="Created On Date">@context.CreatedDate.ToString("yyyy/MM/dd", System.Globalization.CultureInfo.InvariantCulture)</MudTd>
+                    <MudTd DataLabel=""><MudIconButton Icon="@Icons.Filled.Add" Color="Color.Success" @onclick="@(() => AddProduct(context.Id))"></MudIconButton></MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+		</MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Save</MudButton>
+    </MudCardActions>
+</MudCard>
+}
+</MudContainer>

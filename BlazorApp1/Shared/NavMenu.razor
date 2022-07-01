@@ -1,0 +1,20 @@
+﻿
+<MudAppBar Elevation="1" Style="background-color: #170d6fff;">
+    <MudIconButton Icon="@Icons.Filled.Apps" Size="Size.Large" Edge="Edge.Start" Class="mr-5" Style="color:white;" OnClick="@NavToggle"/>
+</MudAppBar>
+<MudDrawer @bind-Open="@NavOpen" ClipMode="DrawerClipMode.Always" Elevation="1" Variant="DrawerVariant.Temporary">
+    <MudGrid Style="width: 100%; margin: 0px;">
+        <MudItem xs="6" Class="d-flex justify-center flex-column flex-grow-1 align-center">
+            <MudLink Class="d-flex justify-center flex-column flex-grow-1 align-center" Href="/products" @onclick="CloseNav">
+                <MudIcon Icon="@Icons.Filled.DocumentScanner" Title=""/>
+                <MudText>Products</MudText>
+            </MudLink>
+        </MudItem>
+        <MudItem xs="6" Class="d-flex justify-center flex-column flex-grow-1 align-center">
+            <MudLink Class="d-flex justify-center flex-column flex-grow-1 align-center" Href="/courses" @onclick="CloseNav">
+                <MudIcon Icon="@Icons.Filled.DocumentScanner" Title=""/>
+                <MudText>Courses</MudText>
+            </MudLink>
+        </MudItem>
+    </MudGrid>
+</MudDrawer>
