@@ -27,8 +27,8 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-BlazorApp1/bin/
-BlazorApp1/obj/
+[Bb]in/
+[Oo]bj/
 [Ll]og/
 [Ll]ogs/
 
